@@ -1,15 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { getPopular } from "../Api/Repositories/movies";
+import { getPopular } from "../Api/Repositories/movies/services";
+import { Movie } from "../Api/Repositories/movies/types";
 import { Button, Layout } from "../Components";
 
 const Home: React.FC<{}> = (): JSX.Element => {
-  const [data, setData] = useState<Array<any>>([]);
+  const [data, setData] = useState<Array<Movie>>([]);
 
   useEffect(() => {
     getPopular()
       .then((res) => {
-        setData(res.results);
+        setData(res);
       })
       .catch((err) => {
         console.log(err);
@@ -26,7 +27,9 @@ const Home: React.FC<{}> = (): JSX.Element => {
           })}
         </div>
       ) : (
-        <p className="text-gray-500 text-sm text-center my-4">Loading Popular Movies...</p>
+        <p className="text-gray-500 text-sm text-center my-4">
+          Loading Popular Movies...
+        </p>
       )}
       <Link to="/about" className="block">
         <Button text="About" />
